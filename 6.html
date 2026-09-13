@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .cake-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+        }
+
+
+        .cake-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 60px;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+            border-radius: 10px;
+            opacity: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake-layer:nth-child(2) {
+            bottom: 40px;
+            width: 260px;
+            background: linear-gradient(135deg, #DDA0DD 0%, #BA55D3 100%);
+        }
+
+        .cake-layer:nth-child(3) {
+            bottom: 100px;
+            width: 240px;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+        }
+
+        .cake-layer:nth-child(4) {
+            bottom: 160px;
+            width: 220px;
+            background: linear-gradient(135deg, #DDA0DD 0%, #BA55D3 100%);
+        }
+
+        .cake-layer:nth-child(5) {
+            bottom: 220px;
+            width: 200px;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+        }
+
+        .cake-layer.drop {
+            animation: dropIn 0.8s ease-out forwards;
+        }
+
+        @keyframes dropIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-200px) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) rotate(0deg);
+            }
+        }
+
+        .candles-container {
+            position: absolute;
+            bottom: 280px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+        }
+
+        .candles-container.show {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .candle {
+            width: 15px;
+            height: 60px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 50% 0 0;
+            animation: flicker 0.5s ease-in-out infinite alternate;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .candle.blown::before {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+            animation: none;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .smoke {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .smoke.active {
+            animation: smokeRise 1.5s ease-out forwards;
+        }
+
+        @keyframes smokeRise {
+            0% {
+                opacity: 0.8;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px) scale(2);
+            }
+        }
+
+        .timer {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+        }
+
+        .timer.show {
+            animation: timerFadeIn 1s ease-out forwards;
+        }
+
+        @keyframes timerFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        .happy-birthday {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .happy-birthday.show {
+            animation: textBounce 1s ease-out forwards;
+        }
+
+        @keyframes textBounce {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-50px) scale(0.5);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px) scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        .icing {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(135deg, #FFF 0%, #FFD700 100%);
+            border-radius: 0 0 10px 10px;
+        }
+
+        .sprinkles {
+            position: absolute;
+            top: 5px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .sprinkle {
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .cherry {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #FF6B6B, #C0392B);
+            border-radius: 50%;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .cherry::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 10px;
+            background: #27AE60;
+            border-radius: 2px;
+        }
+
+        .cherry::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 60%;
+            width: 8px;
+            height: 8px;
+            background: #27AE60;
+            border-radius: 50% 50% 0 50%;
+            transform: rotate(45deg);
+        }
+
+        .decoration {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #FF69B4, #FF1493);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .next-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #fb0303 0%, #610101 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 100;
+        }
+
+        .next-button:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .next-button.show {
+            animation: buttonBounce 0.8s ease-out forwards;
+        }
+
+        @keyframes buttonBounce {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(30px) scale(0.8);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="image/mand/VID-20260703-WA0005.mp4" type="video/mp4">
+    </video>
+    <div class="cake-container">
+        <h1 class="happy-birthday text-center" id="happyBirthday">🎂 Happy Birthday! <br>Sohneyo 🎂</h1>
+
+        <div class="candles-container" id="candles">
+            <div class="candle"><div class="smoke"></div></div>
+            <div class="candle"><div class="smoke"></div></div>
+            <div class="candle"><div class="smoke"></div></div>
+            <div class="candle"><div class="smoke"></div></div>
+            <div class="candle"><div class="smoke"></div></div>
+        </div>
+
+        <div class="cake-layer" id="layer4">
+            <div class="icing">
+                <div class="sprinkles">
+                    <div class="sprinkle" style="left: 10%; top: 2px; background: #FF6B6B; transform: rotate(45deg);"></div>
+                    <div class="sprinkle" style="left: 25%; top: 5px; background: #4ECDC4; transform: rotate(-30deg);"></div>
+                    <div class="sprinkle" style="left: 40%; top: 1px; background: #FFD93D; transform: rotate(60deg);"></div>
+                    <div class="sprinkle" style="left: 55%; top: 4px; background: #6BCB77; transform: rotate(-45deg);"></div>
+                    <div class="sprinkle" style="left: 70%; top: 2px; background: #FF6B6B; transform: rotate(30deg);"></div>
+                    <div class="sprinkle" style="left: 85%; top: 5px; background: #4ECDC4; transform: rotate(-60deg);"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cake-layer" id="layer3">
+            <div class="icing">
+                <div class="sprinkles">
+                    <div class="sprinkle" style="left: 15%; top: 3px; background: #FFD93D; transform: rotate(-45deg);"></div>
+                    <div class="sprinkle" style="left: 30%; top: 1px; background: #FF6B6B; transform: rotate(30deg);"></div>
+                    <div class="sprinkle" style="left: 45%; top: 4px; background: #6BCB77; transform: rotate(-30deg);"></div>
+                    <div class="sprinkle" style="left: 60%; top: 2px; background: #4ECDC4; transform: rotate(45deg);"></div>
+                    <div class="sprinkle" style="left: 75%; top: 5px; background: #FFD93D; transform: rotate(-60deg);"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cake-layer" id="layer2">
+            <div class="icing">
+                <div class="sprinkles">
+                    <div class="sprinkle" style="left: 12%; top: 4px; background: #6BCB77; transform: rotate(30deg);"></div>
+                    <div class="sprinkle" style="left: 28%; top: 2px; background: #FF6B6B; transform: rotate(-45deg);"></div>
+                    <div class="sprinkle" style="left: 42%; top: 5px; background: #4ECDC4; transform: rotate(60deg);"></div>
+                    <div class="sprinkle" style="left: 58%; top: 1px; background: #FFD93D; transform: rotate(-30deg);"></div>
+                    <div class="sprinkle" style="left: 72%; top: 3px; background: #FF6B6B; transform: rotate(45deg);"></div>
+                    <div class="sprinkle" style="left: 88%; top: 4px; background: #6BCB77; transform: rotate(-60deg);"></div>
+                </div>
+            </div>
+            <div class="cherry"></div>
+        </div>
+
+        <div class="timer" id="timer">00:00</div>
+        <a href="7.html" class="next-button" id="nextButton">Next ➜</a>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="6.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="birthday1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Pacifico&family=Satisfy&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="image/mand/VID-20260703-WA0004.mp4" type="video/mp4">
+    </video>
+    <div class="container-fluid">
+        <div class="row ">
+            <!-- <div class="col-5 mt-5 ms-5 pt-5">
+                <img src="images/958d1659b08620dfaf25961b36104ffc.jpg" alt="" id="box" class="image" onmouseover="change()" onmouseout="ToNormal()">
+            </div> -->
+            <div class="col-5  ">
+                <div class="row  mt-5 pt-5 justify-content-center text-center">
+                    <div class="col-12">
+                        <h2 class="colorchange ms-3">Enter a Passcode</h2>
+                        <h5 id="incorrect" class="text-danger mt-1"></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row justify-content-center mt-3 ">
+                            <div class="col-1">
+                                <input type="number " class="passcode text-center color-dark fs-5" id="input1">
+                            </div>
+                            <div class="col-1">
+                                <input type="number " class="passcode text-center color-dark fs-5" id="input2">
+
+                            </div>
+                            <div class="col-1 ">
+                                <input type="number " class="passcode text-center color-dark fs-5" id="input3">
+
+                            </div>
+                            <div class="col-1">
+                                <input type="number " class="passcode text-center color-dark fs-5" id="input4">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4 ms-2" id="size">
+                    <div class="col-2 ">
+                        <button class="sizeadjust" onclick="enter('1')">1</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('2')">2</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('3')">3</button>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center  mt-3 ms-2" id="size">
+                    <div class="col-2 ">
+                        <button class="sizeadjust" onclick="enter('4')">4</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('5')">5</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('6')">6</button>
+                    </div>
+
+                </div>
+                <div class="row justify-content-center mt-3 ms-2" id="size">
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('7')">7</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('8')">8</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('9')">9</button>
+                    </div>
+                </div>
+                <div class="row justify-content-center  mt-3 ms-2" id="size">
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="clearr()">C</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="enter('0')">0</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="sizeadjust" onclick="DeleteLast()">Del</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="birthday1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
